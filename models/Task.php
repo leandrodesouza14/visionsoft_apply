@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use app\models\Status;
 
 class Task extends ActiveRecord
 {
@@ -25,4 +26,9 @@ class Task extends ActiveRecord
             [['conclusion_at'], 'date', 'format' => 'php:Y-m-d', 'message' => 'A data de conclusão deve estar no formato AAAA-MM-DD.'],
         ];
     }
+    
+    public function getStatus()
+   {
+       return $this->hasOne(Status::class, ['id' => 'status_id']);
+   }
 }
