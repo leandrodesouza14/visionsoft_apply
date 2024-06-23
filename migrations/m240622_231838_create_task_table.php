@@ -17,8 +17,8 @@ class m240622_231838_create_task_table extends Migration
             'title' => $this->string(255),
             'description' => $this->string(510),
             'status_id' => $this->integer(),
-            'created_at' => $this->dateTime(),
-            'conclusion_at' => $this->dateTime(),
+            'created_at' => $this->date(),
+            'conclusion_at' => $this->date(),
         ]);
 
         $this->addForeignKey('fk_task_status', 'task', 'status_id', 'status', 'id', null, 'CASCADE');

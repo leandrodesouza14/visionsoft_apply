@@ -3,6 +3,8 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 use app\models\Status;
 
 class Task extends ActiveRecord
@@ -15,6 +17,10 @@ class Task extends ActiveRecord
         return 'task';
     }
 
+
+    /**
+     * Rules is a validate inputs rules
+     */
     public function rules()
     {
         return [
@@ -22,13 +28,61 @@ class Task extends ActiveRecord
             [['title'], 'string', 'max' => 255, 'tooLong' => 'O título não pode exceder 255 caracteres.'],
             [['description'], 'required', 'message' => 'A descrição é obrigatória.'],
             [['description'], 'string', 'max' => 510, 'tooLong' => 'A descrição não pode exceder 510 caracteres.'],
-            [['status'], 'integer', 'message' => 'O status deve ser um número inteiro.'],
+            [['status_id'], 'integer', 'message' => 'O status deve ser um número inteiro.'],
+            [['status_id'], 'required', 'message' => 'O status é obrigatório'],
             [['conclusion_at'], 'date', 'format' => 'php:Y-m-d', 'message' => 'A data de conclusão deve estar no formato AAAA-MM-DD.'],
+            ['conclusion_at', 'validateConclusionAt'],
         ];
     }
-    
+
+    /**
+     * @param string $attribute the attribute currently being validated
+     * @param mixed $params the value of the "params" given in the rule
+     * @param \yii\validators\InlineValidator $validator related InlineValidator instance.
+     * IMPORTANT: The database guarantees, via Trigger, that only one status record will contain a 'completed' flag.
+     */
+    public function validateConclusionAt($attribute, $params, $validator)
+    {
+        $today = date('Y-m-d');
+
+        if ($this->$attribute > $today) {
+            $validator->addError($this, $attribute, 'A data "{value}" para "{attribute}", deve ser menor que a data atual.');
+        }
+
+        $endStatus = Status::find()->where(['completed' => true])->one();
+        if ($this->status_id != $endStatus->id) {
+            $validator->addError($this, $attribute, 'A "{attribute}", só deve ser inserida para uma tarefa com estado Finalizado');
+        }
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'title' => 'Título da Tarefa',
+            'description' => 'Descrição',
+            'created_at' => 'Data de Criação',
+            'conclusion_at' => 'Data de Conclusão',
+            'status' => 'Estado',
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                ],
+                'value' => function () {
+                    return date('Y-m-d'); // Retorna apenas a data atual
+                },
+            ],
+        ];
+    }
+
     public function getStatus()
-   {
-       return $this->hasOne(Status::class, ['id' => 'status_id']);
-   }
+    {
+        return $this->hasOne(Status::class, ['id' => 'status_id']);
+    }
 }
