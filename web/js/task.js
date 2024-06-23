@@ -103,17 +103,21 @@ $(document).ready(function () {
     });
 
     /**
-    ** Show and hide the edit button.
+    ** Show and hide the edit and delete button.
     **/
    
-    function toggleUpdateButtonVisibility() {
+    function toggleUpdateDeleteButtonVisibility() {
         var $updateButton = $('#updateTaskButton');
+        var $deleteButton = $('#deleteTaskButton');
+        
         var hasDataTaskId = $updateButton.attr('data-task-id') !== undefined;
     
         if (hasDataTaskId) {
             $updateButton.show();
+            $deleteButton.show();
         } else {
             $updateButton.hide();
+            $deleteButton.hide();
         }
     }
 
@@ -143,7 +147,7 @@ $(document).ready(function () {
             });
         });
         colorRow('#listTasksTable tbody', this);
-        toggleUpdateButtonVisibility();
+        toggleUpdateDeleteButtonVisibility();
     });
 
     function colorRow(table, row) {
@@ -151,7 +155,7 @@ $(document).ready(function () {
         $(row).addClass('table-info');
     }
     
-    toggleUpdateButtonVisibility();
+    toggleUpdateDeleteButtonVisibility();
 
     /**
     ** Capture the click outside the table and remove the style.
@@ -166,8 +170,9 @@ $(document).ready(function () {
             });
 
             $('#listTasksTable tbody tr').removeClass('table-info');
+            toggleUpdateDeleteButtonVisibility();
         }
-        toggleUpdateButtonVisibility();
+        toggleUpdateDeleteButtonVisibility();
     });
 
     /**
