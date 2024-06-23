@@ -28,8 +28,11 @@ use yii\widgets\ActiveForm;
 
                 <?= $form->field($model, 'title', ['inputOptions' => ['name' => 'title']])->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
                 <?= $form->field($model, 'description', ['inputOptions' => ['name' => 'description']])->textArea(['maxlength' => true, 'class' => 'form-control']) ?>
+                <?= $form->field($model, 'conclusion_at', ['inputOptions' => ['name' => 'conclusion_at', 'id' => 'conclusion_at']])->textInput(['type' => 'date', 'class' => 'form-control'])
+                            ->hint('Deve ser anterior ou igual a data atual, e só é aplicada a uma tarefa finalizada.', ['id' => 'conclusion_at', 'class' => 'form-text']) ?>
                 <?= $form->field($model, 'status', ['inputOptions' => ['name' => 'status_id']])->dropDownList($status, ['prompt' => 'Selecione', 'class' => 'form-select']) ?>
-
+               
+                
                 <div class="form-group">
                     <?= Html::submitButton('Enviar', ['class' => 'btn btn-primary']) ?>
                 </div>
@@ -64,8 +67,9 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'id')->hiddenInput(['name' => 'id'])->label(false) ?>
                 <?= $form->field($model, 'title', ['inputOptions' => ['name' => 'title']])->textInput(['maxlength' => true, 'class' => 'form-control']) ?>
                 <?= $form->field($model, 'description', ['inputOptions' => ['name' => 'description']])->textArea(['maxlength' => true, 'class' => 'form-control']) ?>
+                <?= $form->field($model, 'conclusion_at', ['inputOptions' => ['name' => 'conclusion_at', 'id' => 'conclusion_at']])->textInput(['type' => 'date', 'class' => 'form-control'])
+                            ->hint('Deve ser anterior ou igual a data atual, e só é aplicada a uma tarefa finalizada.', ['id' => 'conclusion_at', 'class' => 'form-text']) ?>
                 <?= $form->field($model, 'status', ['inputOptions' => ['name' => 'status_id']])->dropDownList($status, ['prompt' => 'Selecione', 'class' => 'form-select']) ?>
-                <?= $form->field($model, 'conclusion_at', ['inputOptions' => ['name' => 'conclusion_at']])->textInput(['type' => 'date', 'class' => 'form-control']) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Enviar', ['class' => 'btn btn-primary']) ?>

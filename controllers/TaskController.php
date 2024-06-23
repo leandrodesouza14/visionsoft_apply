@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
+use yii\web\Response;
+use yii\helpers\Json;
 
 use app\models\Task;
 use app\models\Status;
@@ -24,13 +26,13 @@ class TaskController extends Controller
         return $this->render('dashboard', [
             'status' => $status,
             'model' => new Task()
-        ]); 
+        ]);
     }
 
     public function actionList()
     {
         $tasks = Task::find()->with('status')->all();
-        
+
         if (!$tasks) {
             return $this->asJson(['tasks' => []]);
         }
@@ -47,26 +49,30 @@ class TaskController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
+        Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $customer = new Task();
-        $customer->attributes = $request->bodyParams;
-        if (!$customer->save()) {
-            return $this->asJson(['error' => $customer->getErrors()]);
+        $task = new Task();
+        $task->attributes = Json::decode($request->getRawBody());
+        if (!$task->save()) {
+            return $this->asJson(['error' => $task->getErrors()]);
         }
 
-        return $this->asJson(['success' => true, 'message' => 'Tarefa criada com sucesso: ' . $customer->title]);
+        return $this->asJson(['success' => true, 'message' => 'Tarefa criada com sucesso: ' . $task->title]);
     }
 
     public function actionUpdate()
     {
         $request = Yii::$app->request;
-        $task = Task::findOne($request->bodyParams['id']);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $data = Json::decode($request->getRawBody());
+
+        $task = Task::findOne($data['id']);
 
         if (!$task) {
             return $this->asJson(['error' => 'Tarefa não encontrada!']);
         }
 
-        $task->attributes = $request->bodyParams;
+        $task->attributes = $data;
 
         if (!$task->save()) {
             return $this->asJson(['error' => $task->getErrors()]);
@@ -78,7 +84,10 @@ class TaskController extends Controller
     public function actionDelete()
     {
         $request = Yii::$app->request;
-        $task = Task::findOne($request->bodyParams['id']);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $data = Json::decode($request->getRawBody());
+
+        $task = Task::findOne($data['id']);
 
         if (!$task->delete()) {
             return $this->asJson(['error' => $task->getErrors()]);

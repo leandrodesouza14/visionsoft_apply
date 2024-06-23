@@ -58,7 +58,7 @@ class Task extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'title' => 'Título da Tarefa',
+            'title' => 'Título',
             'description' => 'Descrição',
             'created_at' => 'Data de Criação',
             'conclusion_at' => 'Data de Conclusão',
