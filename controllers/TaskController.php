@@ -13,12 +13,12 @@ use app\models\Status;
 
 class TaskController extends Controller
 {
-    public function actionIndex()
-    {
-        return $this->render('dashboard');
-    }
+    /**
+     * This is the main method, which loads the task view.
+     * @return void
+     */
 
-    public function actionView()
+    public function actionIndex()
     {
         $tasks = Task::find()->all();
         $status = ArrayHelper::map(Status::find()->all(), 'id', 'name');
@@ -28,6 +28,11 @@ class TaskController extends Controller
             'model' => new Task()
         ]);
     }
+
+    /**
+     * This is the method that responds with a list of all registered tasks.
+     * @return array
+     */
 
     public function actionList()
     {
@@ -46,6 +51,11 @@ class TaskController extends Controller
         return $this->asJson(['tasks' => $data]);
     }
 
+    /**
+     * This is the method that receives data from the insertion form and registers the new task.
+     * @return array
+     */
+
     public function actionCreate()
     {
         $request = Yii::$app->request;
@@ -59,6 +69,11 @@ class TaskController extends Controller
 
         return $this->asJson(['success' => true, 'message' => 'Tarefa criada com sucesso: ' . $task->title]);
     }
+
+    /**
+     * This is the method that receives data from the update form and updates the task data.
+     * @return array
+     */
 
     public function actionUpdate()
     {
@@ -80,6 +95,11 @@ class TaskController extends Controller
 
         return $this->asJson(['success' => true, 'message' => 'Tarefa editada com sucesso: ' . $task->title]);
     }
+
+    /**
+     * This is the method that receives the task id and deletes it.
+     * @return array
+     */
 
     public function actionDelete()
     {

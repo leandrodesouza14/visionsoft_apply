@@ -1,3 +1,11 @@
+<?php 
+    /**
+     * This view contains the application home page after login, here the existing 
+     * tasks are listed and the action buttons are displayed. 
+     * It is the central point of the application.
+     */  
+?>
+
 <div class="row">
     <div class="col">
         <div class="table-responsive">

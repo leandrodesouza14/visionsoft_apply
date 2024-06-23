@@ -6,9 +6,15 @@ use yii\widgets\ActiveForm;
 ?>
 
 <?php 
-    /*
-    ** Create Task Form 
-    */  
+    /**
+     * This view is used to render the forms that interact with the tasks.
+     */  
+?>
+
+<?php 
+    /**
+     * Create Task Form 
+     */  
 ?>
 
 <div class="modal fade" id="newTaskModal" tabindex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
@@ -44,9 +50,9 @@ use yii\widgets\ActiveForm;
 </div>
 
 <?php 
-    /*
-    ** Edit Task Form 
-    */  
+    /**
+     * Edit Task Form 
+     */  
 ?>
 
 <div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">

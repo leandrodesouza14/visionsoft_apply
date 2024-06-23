@@ -1,14 +1,24 @@
 <?php
 
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '',
-    'charset' => 'utf8',
+    /**
+     * It is necessary to define the values ​​for Server, Database, Username and Password.
+     *
+     * Server = Host used to host the database.
+     * Database = Name of the database to be used.
+     * Username = Database connection user.
+     * Password = Password for connecting to the database.
+     *
+     * @return array
+     */
 
-    // Schema cache options (for production environment)
-    //'enableSchemaCache' => true,
-    //'schemaCacheDuration' => 60,
-    //'schemaCache' => 'cache',
-];
+    return [
+        'class' => 'yii\db\Connection',
+        'dsn' => 'sqlsrv:Server=;Database=;TrustServerCertificate=true',
+        'username' => '',
+        'password' => '',
+        'charset' => 'utf8',
+
+        'enableSchemaCache' => true,
+        'schemaCacheDuration' => 60,
+        'schemaCache' => 'cache',
+    ];

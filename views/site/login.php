@@ -11,6 +11,13 @@ use yii\bootstrap5\Html;
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<?php 
+    /**
+     * This view contains the login form.
+     */  
+?>
+
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>
 

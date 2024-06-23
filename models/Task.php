@@ -12,6 +12,7 @@ class Task extends ActiveRecord
     /**
      * @return string the name of the table associated with this ActiveRecord class.
      */
+
     public static function tableName()
     {
         return 'task';
@@ -19,8 +20,10 @@ class Task extends ActiveRecord
 
 
     /**
-     * Rules is a validate inputs rules
+     * This is the method that defines the validation rules for the fields.
+     * @return array
      */
+
     public function rules()
     {
         return [
@@ -41,6 +44,7 @@ class Task extends ActiveRecord
      * @param \yii\validators\InlineValidator $validator related InlineValidator instance.
      * IMPORTANT: The database guarantees, via Trigger, that only one status record will contain a 'completed' flag.
      */
+
     public function validateConclusionAt($attribute, $params, $validator)
     {
         $today = date('Y-m-d');
@@ -55,6 +59,11 @@ class Task extends ActiveRecord
         }
     }
 
+    /**
+     * This is the method that defines the labels for each field.
+     * @return array
+     */
+
     public function attributeLabels()
     {
         return [
@@ -66,6 +75,11 @@ class Task extends ActiveRecord
         ];
     }
 
+    /**
+     * This method defines the current date as the default value for insertion in the 'created_at' field.
+     * @return date
+     */
+
     public function behaviors()
     {
         return [
@@ -75,11 +89,16 @@ class Task extends ActiveRecord
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
                 ],
                 'value' => function () {
-                    return date('Y-m-d'); // Retorna apenas a data atual
+                    return date('Y-m-d');
                 },
             ],
         ];
     }
+
+    /**
+     * This is the method that returns the relationship with the status table.
+     * @return yii\db\ActiveQuery a ActiveQuery object for retrieving the related Status model.
+     */
 
     public function getStatus()
     {

@@ -4,6 +4,13 @@
 
 $this->title = 'My Yii Application';
 ?>
+
+<?php 
+    /**
+     * This view contains the homepage.
+     */  
+?>
+
 <div>
 
     <div class="text-start bg-transparent mt-5 mb-5">
