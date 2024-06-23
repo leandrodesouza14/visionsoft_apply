@@ -11,26 +11,29 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 $('#listTasksTable tbody').empty();
+                if (response.tasks.length === 0) {
+                    $('#listTasksTable tbody').html('<tr><td colspan="5">Não existem tarefas.</td></tr>');
+                } else {
+                    $.each(response.tasks, function (index, taskObj) {
+                        var task = taskObj.task;
+                        var status = taskObj.status;
 
-                $.each(response.tasks, function (index, taskObj) {
-                    var task = taskObj.task;
-                    var status = taskObj.status;
-
-                    var row = '<tr ' +
-                        'data-task-id="' + task.id + '" ' +
-                        'data-task-title="' + (task.title || '') + '" ' +
-                        'data-task-description="' + (task.description || '') + '" ' +
-                        'data-task-created_at="' + (task.created_at || '') + '" ' +
-                        'data-task-conclusion_at="' + (task.conclusion_at || '') + '" ' +
-                        'data-task-status_id="' + (status.id || '') + '">' +
-                        '<td>' + (task.title || '') + '</td>' +
-                        '<td>' + (task.description || '') + '</td>' +
-                        '<td>' + (task.created_at || '') + '</td>' +
-                        '<td>' + (task.conclusion_at || '') + '</td>' +
-                        '<td>' + (status.name || '') + '</td>' +
-                        '</tr>';
-                    $('#listTasksTable tbody').append(row);
-                });
+                        var row = '<tr ' +
+                            'data-task-id="' + task.id + '" ' +
+                            'data-task-title="' + (task.title || '') + '" ' +
+                            'data-task-description="' + (task.description || '') + '" ' +
+                            'data-task-created_at="' + (task.created_at || '') + '" ' +
+                            'data-task-conclusion_at="' + (task.conclusion_at || '') + '" ' +
+                            'data-task-status_id="' + (status.id || '') + '">' +
+                            '<td>' + (task.title || '') + '</td>' +
+                            '<td>' + (task.description || '') + '</td>' +
+                            '<td>' + (task.created_at || '') + '</td>' +
+                            '<td>' + (task.conclusion_at || '') + '</td>' +
+                            '<td>' + (status.name || '') + '</td>' +
+                            '</tr>';
+                        $('#listTasksTable tbody').append(row);
+                    });
+                }
             },
             error: function (xhr, status, error) {
                 console.error('Erro na requisição AJAX: ' + error);
